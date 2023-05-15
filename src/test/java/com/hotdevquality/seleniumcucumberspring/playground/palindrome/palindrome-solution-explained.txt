@@ -1,0 +1,27 @@
+
+If a given string is palindrome string with simple java programs using stack,
+queue or simple loops. In simplest words,
+a string is palindrome if it is equal to it’s reverse string.
+
+
+A palindrome is a word, phrase, number,
+or other sequence of units that may be read the same way in either direction,
+generally if used comma, separators or other word dividers are ignored.
+
+
+1. Algorithm
+1.1. First approach
+To check palindrome, we can pick the characters (one by one) from start and end of string and start comparing to each other.
+
+Pick first character and last character of string and compare. If both matches – continue. Else string is not palindrome.
+Pick second character from start and last, compare both. If both matches – continue. Else string is not palindrome.
+Continue above comparisons till both characters to compare are same or consecutive to each other.
+1.2. Second approach
+Rather than comparing chars from start and end, we can also find the reverse string of the given string and compare both strings. If both strings are same, they are palindrome.
+
+Get character array from given string
+Build a string by iterating the array from end to beginning index
+Optionally – remove comma, separators or other word dividers from both strings
+Compare both strings
+
+
