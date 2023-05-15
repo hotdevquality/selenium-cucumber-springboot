@@ -1,0 +1,61 @@
+# version: 3. It is the latest version of the docker-compose files.
+# services(containers): This contains the list of the images and their configurations.
+# image: It defines which image will be used to spin up container.
+# ports: Published ports with host:container format.
+# container_name: You can give name to your containers.
+# depends_on: This defines the required dependency before spinning up the container.
+#  In our docker-compose.yml file, containers Chrome and Firefox are dependent upon container hub to spin up.
+# SE_NODE_MAX_INSTANCES: This defines how many instances of same version of browser can run over the Remote System.
+# SE_NODE_MAX_SESSIONS: This defines maximum number of concurrent sessions that will be allowed
+# Reference: https://medium.com/@iamfaisalkhatri/parallel-execution-of-tests-using-selenium-grid-4-with-docker-compose-2dc243f4fe8b
+
+version: "3"
+services:
+  chrome:
+    image: selenium/node-chrome:4.8.3-20230328
+    shm_size: 2gb
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_INSTANCES=4
+      - SE_NODE_MAX_SESSIONS=4
+      - SE_NODE_SESSION_TIMEOUT=10
+
+  edge:
+    image: selenium/node-edge:4.8.3-20230328
+    shm_size: 2gb
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_INSTANCES=1
+      - SE_NODE_MAX_SESSIONS=1
+      - SE_NODE_SESSION_TIMEOUT=10
+
+  firefox:
+    image: selenium/node-firefox:4.8.3-20230328
+    shm_size: 2gb
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_INSTANCES=1
+      - SE_NODE_MAX_SESSIONS=1
+      - SE_NODE_SESSION_TIMEOUT=10
+
+  selenium-hub:
+    image: selenium/hub:4.8.3-20230328
+    container_name: selenium-hub
+    ports:
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"
+
+
